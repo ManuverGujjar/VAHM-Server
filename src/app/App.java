@@ -6,12 +6,16 @@ import java.net.ServerSocket;
 
 public class App {
     public static void main(String[] args) {
+        Log log = new Log("App");
+        Server server = new Server(); 
         try {
-            create();
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
+            server.acceptConnections();
+        } catch(Exception ex) {
+            log.log(ex.getMessage());
         }
     }
+
+
     public static String getHtml(String filePath) throws Exception{
         StringBuilder htmlString = new StringBuilder();
         var fr =  new FileReader(new File(filePath));
