@@ -32,15 +32,12 @@ public class App {
         System.out.println(new String(s.getInputStream().readAllBytes()));
         var o = s.getOutputStream();
         try {
-            var htmlString = getHtml("/Users/manuver/code/code/index.html");
-            o.write(new String("HTTP/1.1 200 OK\r\nContent-Length: " + htmlString.length() + "\r\nContent-Type: text/html\r\n\n " + htmlString + "\r\n").getBytes());
+            // var htmlString = getHtml("/Users/manuver/code/code/index.html");
+            o.write(new String("HTTP/1.1 200 OK\r\nContent-Length: 5\r\nContent-Type: text/html\r\n\nHello\r\n").getBytes());
         } catch (Exception e) {
             o.write(new String("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\n").getBytes());
         }
         o.flush();
         while (true);
-        // System.out.println("DONE");
-        // s.close();
-        // serverSocket.close();
     }
 }
