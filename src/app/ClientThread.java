@@ -1,46 +1,40 @@
 package app;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 
 class ClientThread extends Thread {
-    Log log;
     Socket clientSocket;
-    OutputStream outputStream;
-    InputStream inputStream;
+    DataOutputStream outputStream;
+    DataInputStream inputStream;
 
-    ClientThread(Socket clientSocket) {
-        log = new Log("ClientThread.java");
-        try {
-
-            this.clientSocket = clientSocket;
-            this.outputStream = clientSocket.getOutputStream();
-            this.inputStream = clientSocket.getInputStream();
-
-        } catch(Exception ex) {
-            log.log(ex.getMessage(), 20);
-        }
+    ClientThread(Socket clientSocket) throws Exception {
+        this.clientSocket = clientSocket;
+        this.outputStream = new DataOutputStream(clientSocket.getOutputStream()); 
+        this.inputStream = new DataInputStream(clientSocket.getInputStream());
     }
 
     @Override
     public void run() {
         try {
-            this.logHttpRequest();
-            this.sendHttpResponse();
+            /** Receive HTTP Request and then Send HTTP Response */
+            receiveHttpRequest();
+            sendHttpResponse();
 
         } catch(Exception ex) {
-            log.log(ex.getMessage(), 33);
+            Log.println(ex.getMessage());
         }
     }
 
-    public void logHttpRequest() throws Exception {
+    public void receiveHttpRequest() throws Exception {
         String req = new String(inputStream.readAllBytes());
-        log.log(req);
+        Log.println(req);
     }
 
     public void sendHttpResponse() throws Exception {
-        String res = new String("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: 5\r\n\nHello\n\n");
+        String htmlString = "<html> Hello World </html>";
+        String res = new String("HTTP/1.1 200 OK\r\nContent-Length: " + htmlString.length() + "\r\nContent-Type: text/html\r\n\n " + htmlString + "\r\n");
         outputStream.write(res.getBytes());
         outputStream.flush();
     }
