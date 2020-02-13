@@ -1,4 +1,4 @@
-package app;
+package util;
 
 public class Log {
     public static void println(String data) {
