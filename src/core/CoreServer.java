@@ -31,6 +31,7 @@ class CoreServer {
 
             while (running) {
                 Socket socket = mainServer.accept();
+                helper.handle(socket);
             }
 
         } catch(Exception exception) {
