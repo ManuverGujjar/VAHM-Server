@@ -7,12 +7,14 @@ public class Response {
     private OutputStream outputStream;
     private int responseCode;
     private String contentType;
+    private HashMap<Integer, String> responseCodes;
     private HashMap<String, String> responseHeaders;
     private byte [] content;
     
     Response(OutputStream outputStream) {
         this.outputStream = outputStream;
         this.responseHeaders = new HashMap<>();
+        this.responseCodes = new HashMap<>();
         content = new String("").getBytes();
         contentType = "text/html";
         responseCode = 200;
@@ -68,6 +70,20 @@ public class Response {
             System.out.println(new String(content));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private static class ResponseCodes {
+        static String getResponseCodeName(int code) {
+            switch (code) {
+                case 200: return "OK";
+                case 301: return "Moved Permanently";
+                case 400: return "Bad Request";
+                case 404: return "Not Found";
+                case 501: return "Bad Gateway";
+                default: return "Internel Server Error";
+            }
         }
     }
 }
