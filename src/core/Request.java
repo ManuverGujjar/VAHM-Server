@@ -32,7 +32,7 @@ public class Request {
                 }
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return requestLines;
     }
@@ -49,12 +49,13 @@ public class Request {
                 try {
                     value = query.split("=")[1];
                 } catch(Exception e) {
+                    e.printStackTrace();
 
                 }
                 this.query.put(key, value);
             }
         } catch (ArrayIndexOutOfBoundsException exception) {
-
+            exception.printStackTrace();
         }
     }
 
@@ -77,15 +78,14 @@ public class Request {
             try {
                 headers.put(header[0], header[1]);
             } catch (ArrayIndexOutOfBoundsException exception) {
-                
+                exception.printStackTrace();
+
             }
         }
         
         String re = "^(GET|POST)\s(.*)\sHTTP/(1.0|1.1)$";
         Pattern pattern = Pattern.compile(re);
-        System.out.println(1);
         Matcher matcher = pattern.matcher(lines.get(0).strip());
-        System.out.println(2);
         System.out.println(matcher.find());
         this.method = matcher.group(1);
         String path = matcher.group(2);

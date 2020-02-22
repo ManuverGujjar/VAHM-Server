@@ -25,9 +25,6 @@ class CoreServer {
         try {
             mainServer = new ServerSocket(this.port);
             
-            if (callback != null) {
-                callback.callback(null);
-            }
 
             while (running) {
                 Socket socket = mainServer.accept();
