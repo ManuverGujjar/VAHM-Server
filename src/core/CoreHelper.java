@@ -33,13 +33,12 @@ class CoreHelper {
         @Override
         public void start() {
             try {
-                
-                request = new Request(socket.getInputStream());
+
                 response = new Response(socket.getOutputStream());
+                request = new Request(socket.getInputStream());
 
                 URLs.handleMaping(request.path.strip(), request, response);
                 
-                // socket.getOutputStream().write(new String("HTTP/1.1 200 OK\r\nContent-Length: 5\r\nConnection: close\r\n\nHello").getBytes());
             } catch(Exception e) {
                 response.setStatus(404).send("url not found on server");
                 e.printStackTrace();
