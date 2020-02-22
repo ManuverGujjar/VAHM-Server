@@ -12,8 +12,17 @@ public class App {
             res.setContentType("text/html").setStatus(200).send("Hello World");
         });
 
+        server.get("/hello", (Request req, Response res) -> {
+            res.setContentType("text/html").setStatus(200).send("this is url hello");
+        });
+
+
+        server.get("/hi", (Request req, Response res) -> {
+            res.setContentType("text/html").setStatus(200).send("this is url hi");
+        });
+
         server.listen(1000, (Exception e) -> {
-            System.out.println(e);
+            e.printStackTrace();
         });
     }
 }
