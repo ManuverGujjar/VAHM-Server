@@ -20,7 +20,7 @@ class CoreServer {
         listen(this.port, null);
     }
 
-    public void listen(int port, Callback callback) {
+    public void listen(int port, Server.Callback callback) {
         this.running = true;
         this.port = port;
         
@@ -40,7 +40,7 @@ class CoreServer {
         }
     }
 
-    public void stop(Callback callback) {
+    public void stop(Server.Callback callback) {
         this.running = false;
         try {
             this.mainServer.close();
@@ -77,5 +77,9 @@ public class Server extends CoreServer {
                 System.out.println(req.method + " " + req.path + " " + res.getStatus());
             }
         }
+    }
+
+    public static interface Callback {
+        public void callback(Exception e);
     }
 }
