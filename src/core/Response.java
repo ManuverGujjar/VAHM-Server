@@ -7,14 +7,12 @@ public class Response {
     private OutputStream outputStream;
     private int responseCode;
     private String contentType;
-    private HashMap<Integer, String> responseCodes;
     private HashMap<String, String> responseHeaders;
     private byte [] content;
     
     Response(OutputStream outputStream) {
         this.outputStream = outputStream;
         this.responseHeaders = new HashMap<>();
-        this.responseCodes = new HashMap<>();
         content = new String("").getBytes();
         contentType = "text/html";
         responseCode = 200;
@@ -54,10 +52,12 @@ public class Response {
     private void sendResponse() {
         setResponseHeaders();
         StringBuilder responseData = new StringBuilder();
-        responseData.append("HTTP/1.1 200 OK\n\r");
+        
+        responseData.append("HTTP/1.1 " + this.responseCode + " " + ResponseCodes.getResponseCodeName(this.responseCode) + "\n\r");
         for (var headerKey : this.responseHeaders.keySet()) {
             responseData.append(headerKey + ":" + this.responseHeaders.get(headerKey) + "\n\r");
         }
+
         responseData.append("\n");
         try {
             this.outputStream.write(responseData.toString().getBytes());
@@ -72,6 +72,8 @@ public class Response {
             e.printStackTrace();
         }
     }
+
+
 
 
     private static class ResponseCodes {
