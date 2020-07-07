@@ -40,32 +40,37 @@ public class Request {
     }
 
     private void parseQuery(String path) {
-        String re = "^(.*)?(.*)$";
+        String re = "(.+)\\?(.+)";
         Pattern pattern = Pattern.compile(re);
         Matcher matcher = pattern.matcher(path.strip());
-        String queries = matcher.group(2);
-        try {
-            for (String query : queries.split("&")) {
-                String key = query.split("=")[0];
-                String value = "";
-                try {
-                    value = query.split("=")[1];
-                } catch(Exception e) {
-                    e.printStackTrace();
-
+        if (matcher.find()) {
+            String queries = matcher.group(2);
+            try {
+                for (String query : queries.split("&")) {
+                    String key = query.split("=")[0];
+                    String value = "";
+                    try {
+                        value = query.split("=")[1];
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    this.query.put(key, value);
                 }
-                this.query.put(key, value);
+            } catch (ArrayIndexOutOfBoundsException exception) {
+                exception.printStackTrace();
             }
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            exception.printStackTrace();
         }
     }
 
     private String getPath(String path) {
-        String re = "^(.*)?(.*)$";
+        System.out.println("path -" + path + "-");
+        String re = "^(.+)\\?(.+)$";
         Pattern pattern = Pattern.compile(re);
-        Matcher matcher = pattern.matcher(path.strip());
-        return matcher.group(1);
+        Matcher matcher = pattern.matcher(path);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
     }
 
     Request(InputStream inputStream) {
