@@ -21,19 +21,27 @@ public class Request {
         System.out.println("[+] Request Received...");
         List<String> requestLines = new ArrayList<>(); 
         try {
+            int last = 0, current = 0; boolean ended = false;
             StringBuilder data = new StringBuilder();
-            while (inputStream.available() > 0) {
-                int single = inputStream.read();
-                System.out.print((char)single);
-                data.append((char)single);
-                if (single == '\r') {
+            while (!ended) {
+                last = current;
+                current = inputStream.read();
+                // System.out.print((char)current);
+                data.append((char)current);
+                if (current == '\r') {
                     requestLines.add(data.toString().strip());
                     data = new StringBuilder();
+                }
+                if (last == '\n' && current == '\r') {
+                    ended = true;
+                    break;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(requestLines);
+        System.out.println("Request parsed");
         return requestLines;
     }
 
@@ -84,7 +92,6 @@ public class Request {
                 headers.put(header[0], header[1]);
             } catch (ArrayIndexOutOfBoundsException exception) {
                 exception.printStackTrace();
-
             }
         }
         

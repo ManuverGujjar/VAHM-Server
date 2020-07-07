@@ -14,9 +14,21 @@ class RequestTest {
     void testRequestUrl() {
         String req = "GET /url?name=manuver HTTP/1.1\n\r";
         InputStream inputStream = new ByteArrayInputStream(req.getBytes());
-        Request request = new Request(inputStream);
+        Request request; //= new Request(inputStream);
+        // assertEquals("GET", request.method);
+        // assertEquals("/url", request.path);
+
+        // req = "GET /favicon HTTP/1.1\n\r";
+        // inputStream = new ByteArrayInputStream(req.getBytes());
+        // request = new Request(inputStream);
+        // assertEquals("GET", request.method);
+        // assertEquals("/favicon", request.path);
+
+        req = "GET /favicon HTTP/1.1\n\r";
+        inputStream = new ByteArrayInputStream(req.getBytes());
+        request = new Request(inputStream);
         assertEquals("GET", request.method);
-        assertEquals("/url", request.path);
+        assertEquals("/favicon", request.path);
     }  
 
     @Test 
