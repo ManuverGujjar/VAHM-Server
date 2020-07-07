@@ -1,6 +1,6 @@
 # Vahm Server
 
-[![Generic badge](https://img.shields.io/badge/Status-In%20Development-<COLOR>.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Status-In%20Development-<COLOR>.svg)](https://shields.io/) [![Generic badge](https://img.shields.io/badge/Java-8.0+-<COLOR>.svg)](https://shields.io/)
 
 Vahm Server is Java based basic web server implementation with almost zero dependancies other than JDK on external libraries.
 
