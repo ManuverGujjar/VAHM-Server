@@ -45,7 +45,8 @@ Vahm requires [JDK](https://google.com/search?q=install%20jdk8) 8+ and [Maven 3.
 git clone https://github.com/manuvergujjar/VAHM-Server.git
 cd VAHM-Server/
 mvn install
-java target/classes/com/manuver/app/App
+cd target/classes
+java com/manuver/app/App
 ```
 
 ### Todos
