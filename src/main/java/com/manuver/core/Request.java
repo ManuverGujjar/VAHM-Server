@@ -1,7 +1,5 @@
 package com.manuver.core;
 
-
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +101,5 @@ public class Request {
         } else {
             this.path = path;
         }
-
-        System.out.printf("[+] %s %s\n", this.method, this.path);
     }
 }
