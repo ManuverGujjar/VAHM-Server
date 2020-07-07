@@ -68,7 +68,6 @@ public class Response {
 
             System.out.println("response sent");
             System.out.println(responseData);
-            System.out.println(new String(content));
         } catch (Exception e) {
             e.printStackTrace();
         }

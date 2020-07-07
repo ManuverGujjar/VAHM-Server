@@ -15,9 +15,11 @@ class CoreHelper {
     }
 
     void handle(Socket socket) {
+        // System.out.println("Free : " + Runtime.getRuntime().freeMemory()/8000000.0);
+        // System.out.println("Max Memory: " + Runtime.getRuntime().maxMemory()/8000000.0);
+        // System.out.println(Runtime.getRuntime().);
         HelperThread thread = new HelperThread(socket);
         thread.start();
-        helperThreads.add(thread);
     }
 
     private class HelperThread extends Thread {
