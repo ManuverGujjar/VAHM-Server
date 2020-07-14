@@ -1,17 +1,15 @@
 package com.manuver.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 class CoreServer {
 
     private ServerSocket mainServer;
-    private int port;
     private boolean running;
     private CoreHelper helper;
 
@@ -20,15 +18,14 @@ class CoreServer {
     }
 
     public void listen(int port) {
-        listen(this.port, null);
+        listen(port, null);
     }
 
-    public void listen(int port, Server.Callback callback) {
-        this.running = true;
-        this.port = port;
-        
+    public void listen(final int port, Server.Callback callback) {
+        running = true;
+
         try {
-            mainServer = new ServerSocket(this.port);
+            mainServer = new ServerSocket(port);
             
 
             while (running) {
@@ -44,9 +41,9 @@ class CoreServer {
     }
 
     public void stop(Server.Callback callback) {
-        this.running = false;
+        running = false;
         try {
-            this.mainServer.close();
+            mainServer.close();
         } catch (Exception e) {
             callback.callback(e);
         }
@@ -70,6 +67,9 @@ public class Server extends CoreServer {
     }
 
     static class URLs {
+
+        private URLs() {}
+
         private static HashMap<String, Handler> urlMap = new HashMap<>();
         private static String staticDir;
 
@@ -82,16 +82,15 @@ public class Server extends CoreServer {
                 try {
                     File file = new File(staticDir, url);
                     if (file.exists()) {
-                        InputStream inputStream = new FileInputStream(file);
-                        res.setContentType("*/*").send(inputStream.readAllBytes());
-                        inputStream.close();
-                        System.out.println("Served");
-                        return;
+                        try(InputStream inputStream = new FileInputStream(file)) {
+                            res.setContentType("*/*").send(inputStream.readAllBytes());
+                            System.out.println("Served");
+                            return;
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             if (urlMap.containsKey(url)) {    
@@ -105,7 +104,7 @@ public class Server extends CoreServer {
         }
     }
 
-    public static interface Callback {
-        public void callback(Exception e);
+    public interface Callback {
+        void callback(Exception e);
     }
 }

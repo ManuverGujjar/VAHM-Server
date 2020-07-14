@@ -5,16 +5,16 @@ import java.io.OutputStream;
 import java.util.HashMap;
 
 public class Response {
-    private OutputStream outputStream;
+    private final OutputStream outputStream;
     private int responseCode;
     private String contentType;
-    private HashMap<String, String> responseHeaders;
+    private final HashMap<String, String> responseHeaders;
     private byte [] content;
     
     Response(OutputStream outputStream) {
         this.outputStream = outputStream;
         this.responseHeaders = new HashMap<>();
-        content = new String("").getBytes();
+        content = "".getBytes();
         contentType = "text/html";
         responseCode = 200;
     }
@@ -54,9 +54,17 @@ public class Response {
         setResponseHeaders();
         StringBuilder responseData = new StringBuilder();
         
-        responseData.append("HTTP/1.1 " + this.responseCode + " " + ResponseCodes.getResponseCodeName(this.responseCode) + "\n\r");
+        responseData.append("HTTP/1.1 ")
+                .append(this.responseCode)
+                .append(" ")
+                .append(ResponseCodes.getResponseCodeName(this.responseCode))
+                .append("\n\r");
+
         for (String headerKey : this.responseHeaders.keySet()) {
-            responseData.append(headerKey + ":" + this.responseHeaders.get(headerKey) + "\n\r");
+            responseData.append(headerKey)
+                    .append(":")
+                    .append(this.responseHeaders.get(headerKey))
+                    .append("\n\r");
         }
 
         responseData.append("\n");

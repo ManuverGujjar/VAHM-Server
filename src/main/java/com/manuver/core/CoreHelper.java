@@ -1,18 +1,10 @@
 package com.manuver.core;
 
-
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.manuver.core.Server.URLs;
 
-class CoreHelper {
-    private List<HelperThread> helperThreads;
+import java.net.Socket;
 
-    CoreHelper() {
-        helperThreads = new ArrayList<>();
-    }
+class CoreHelper {
 
     void handle(Socket socket) {
         // System.out.println("Free : " + Runtime.getRuntime().freeMemory()/8000000.0);
@@ -36,12 +28,9 @@ class CoreHelper {
         @Override
         public void start() {
             try {
-
                 response = new Response(socket.getOutputStream());
                 request = new Request(socket.getInputStream());
-
                 URLs.handleMaping(request.path.strip(), request, response);
-                
             } catch(Exception e) {
                 response.setStatus(404).send("url not found on server");
                 e.printStackTrace();
