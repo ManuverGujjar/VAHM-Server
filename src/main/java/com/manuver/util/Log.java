@@ -1,6 +1,9 @@
-package app;
+package com.manuver.util;
 
 public class Log {
+
+    private Log() {}
+
     public static void println(String data) {
         System.out.println(data);
     }
